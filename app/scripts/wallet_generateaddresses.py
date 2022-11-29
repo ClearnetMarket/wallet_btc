@@ -8,16 +8,17 @@ from app.classes.wallet_btc import Btc_WalletAddresses
 def generate_addresses():
 
     # query amount addresses that are not uses
-    get_available_addresses = db.session.query(Btc_WalletAddresses)\
+    get_available_addresses = db.session\
+        .query(Btc_WalletAddresses)\
         .filter(Btc_WalletAddresses.status == 0)\
         .count()
 
     # see if less than 50
-    if get_available_addresses <= 50:
-
-        # make a 100 new addresses
+    if get_available_addresses < 50:
+        print(f"We have {get_available_addresses} addresses available still.  No need to run")
+    else:
+        # make 100 new addresses
         for f in range(100):
-
             # call the rpc
             newwalletaddress = callforaddress()
             if newwalletaddress["error"] is None:
@@ -29,12 +30,9 @@ def generate_addresses():
                     btcaddress=the_address,
                     status=0,
                      )
-
                 db.session.add(walletadd)
-
         db.session.commit()
-    else:
-        print(f"We have {get_available_addresses} addresses available still.  No need to run")
+
 
 
 def callforaddress():

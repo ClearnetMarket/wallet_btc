@@ -1,0 +1,26 @@
+version: '3.8'
+
+volumes:
+  freeport_btc_wallet_volume:
+  freeport_btc_volume:
+  db:
+    driver: local
+
+networks:
+  freeport:
+    external: true
+
+  api:
+    container_name: freeport-btc
+    image: freeport/freeport-btc
+    restart: on-failure
+    build:
+        context: ./
+        dockerfile: Dockerfile
+    volumes:
+        - ./:/app
+        - freeport_wallet_xmr:/home/droid/freeport/data
+    ports:
+      - '6005:6005'
+    networks:
+      - freeport

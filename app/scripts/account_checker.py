@@ -1,42 +1,27 @@
 
 from app import db
-from app.classes.wallet_btc import Btc_Wallet, Btc_WalletAddresses, Btc_Unconfirmed
+from app.classes.wallet_btc import\
+    Btc_Wallet,\
+    Btc_WalletAddresses,\
+    Btc_Unconfirmed
 from app.classes.auth import Auth_User
-
-
-
-def accounts_no_address_fix():
-    """
-    Gets all users see if wallet is ok.
-    If not redirects it
-
-    :return:
-    """
-    getusers = db.session.query(Auth_User).all()
-    for f in getusers:
-        userswallet = db.session.query(Btc_Wallet).filter(f.id == Btc_Wallet.user_id).first()
-        if userswallet:
-            if userswallet.address1.startswith('3'):
-                pass
-            else:
-                btc_get_address(userswallet)
-        else:
-            btc_create_wallet(user_id=f.user_id)
-
-    print("committed")
-    db.session.commit()
 
 
 def btc_get_address(userswallet):
     """
     if user has a wallet but no address
+    get the user an unused address
     :param userswallet:
     :return:
     """
-    # get the user an unused address
+
     print("user id has no address: ", userswallet.user_id)
+
     # sets users wallet with this address
-    getnewaddress = db.session.query(Btc_WalletAddresses).filter(Btc_WalletAddresses.status == 0).first()
+    getnewaddress = db.session\
+        .query(Btc_WalletAddresses)\
+        .filter(Btc_WalletAddresses.status == 0)\
+        .first()
     userswallet.address1 = getnewaddress.btcaddress
     userswallet.address1status = 1
     # update address in listing as used
@@ -55,7 +40,10 @@ def btc_create_wallet(user_id):
     :return:
     """
 
-    getnewaddress = Btc_WalletAddresses.query.filter(Btc_WalletAddresses.status == 0).first()
+    getnewaddress = db.session\
+        .query(Btc_WalletAddresses)\
+        .filter(Btc_WalletAddresses.status == 0)\
+        .first()
 
     # if user has no wallet in database
     # create it and give it an address
@@ -97,6 +85,34 @@ def btc_create_wallet(user_id):
     print("created wallet:", getnewaddress.btcaddress)
 
 
+def main():
+    """
+    Gets all users see if wallet is ok.
+    If not redirects it
+
+    :return:
+    """
+    getusers = db.session\
+        .query(Auth_User)\
+        .all()
+
+    total_amount = 0
+
+    for f in getusers:
+        userswallet = db.session\
+            .query(Btc_Wallet)\
+            .filter(f.id == Btc_Wallet.user_id)\
+            .first()
+        if not userswallet:
+            btc_create_wallet(user_id=f.user_id)
+            total_amount = total_amount + 1
+        if not userswallet.address1.startswith('3'):
+            btc_get_address(userswallet)
+            total_amount = total_amount + 1
+
+    if total_amount > 0:
+        db.session.commit()
+
 
 if __name__ == '__main__':
-    accounts_no_address_fix()
+    main()

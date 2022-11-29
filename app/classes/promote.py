@@ -1,15 +1,20 @@
-from app import db
+from app import db, ma
 
 
 class Promoted_Item(db.Model):
-    __tablename__ = 'category'
+    __tablename__ = 'promoted_item'
     __bind_key__ = 'clearnet'
-    __table_args__ = {"schema": "public", 'extend_existing': True}
-    id = db.Column(db.Integer, primary_key=True,
-                   autoincrement=True, unique=True)
+    __table_args__ = {"schema": "public"}
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   autoincrement=True,
+                   unique=True)
     itemid = db.Column(db.INTEGER)
 
 
-db.configure_mappers()
-db.create_all()
-db.session.commit()
+class Promoted_Item_Schema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Promoted_Item
+    id = ma.auto_field()
+    itemid = ma.auto_field()
+

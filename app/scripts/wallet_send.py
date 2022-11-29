@@ -6,7 +6,11 @@ from datetime import datetime
 import json
 from app.notification import add_new_notification
 from app.common.functions import floating_decimals
-from app.classes.wallet_btc import Btc_Wallet, Btc_TransactionsBtc, Btc_WalletFee, Btc_WalletWork
+from app.classes.wallet_btc import\
+    Btc_Wallet,\
+    Btc_TransactionsBtc,\
+    Btc_WalletFee, \
+    Btc_WalletWork
 
 
 
@@ -73,11 +77,17 @@ def sendcoin(user_id, sendto, amount, comment):
     timestamp = datetime.utcnow()
 
     # get the fee from db
-    getwallet = db.session.query(Btc_WalletFee).filter_by(id=1).first()
+    getwallet = db.session\
+        .query(Btc_WalletFee)\
+        .filter_by(id=1)\
+        .first()
     walletfee = getwallet.btc
 
     # get the users wall
-    userswallet = db.session.query(Btc_Wallet).filter_by(user_id=user_id).first()
+    userswallet = db.session\
+        .query(Btc_Wallet)\
+        .filter_by(user_id=user_id)\
+        .first()
 
     # proceed to see if balances check
     curbal = floating_decimals(userswallet.currentbalance, 8)
@@ -143,7 +153,8 @@ def mainquery():
     """
     # main query
     """
-    work = db.session.query(Btc_WalletWork) \
+    work = db.session\
+        .query(Btc_WalletWork) \
         .filter(Btc_WalletWork.type == 2) \
         .order_by(Btc_WalletWork.created.desc()) \
         .all()

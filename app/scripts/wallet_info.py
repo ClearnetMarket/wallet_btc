@@ -1,9 +1,7 @@
 
-from app import db
 import requests
 import json
 from walletconfig import url
-from app.classes.wallet_btc import Btc_WalletAddresses
 
 def getthebalance():
 

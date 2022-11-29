@@ -1,13 +1,19 @@
 
 from app import db
-from walletconfig import url, digital_currency
+from walletconfig import \
+    url,\
+    digital_currency
 from sqlalchemy import or_
 import json
 from decimal import Decimal
 import requests
 from app.common.functions import floating_decimals
 from app.notification import add_new_notification
-from app.classes.wallet_btc import Btc_Wallet, Btc_TransactionsBtc, Btc_Unconfirmed, Btc_TransOrphan
+from app.classes.wallet_btc import\
+    Btc_Wallet,\
+    Btc_TransactionsBtc,\
+    Btc_Unconfirmed,\
+    Btc_TransOrphan
 
 
 # this script nonstop.
@@ -25,7 +31,10 @@ def addtounconfirmed(amount, user_id, txid):
     """
 
     # get unconfirmed transactions
-    unconfirmedtable = db.session.query(Btc_Unconfirmed).filter_by(user_id=user_id).first()
+    unconfirmedtable = db.session\
+        .query(Btc_Unconfirmed)\
+        .filter_by(user_id=user_id)\
+        .first()
 
     # put to decimal
     decamount = floating_decimals(amount, 8)
@@ -40,8 +49,6 @@ def addtounconfirmed(amount, user_id, txid):
             unconfirmed3=0,
             unconfirmed4=0,
             unconfirmed5=0,
-
-
         )
         db.session.add(newunconfirmed)
     else:
@@ -82,7 +89,10 @@ def removeunconfirmed(user_id, txid):
     """
 
     # get unconfirmed in database
-    unconfirmeddelete = db.session.query(Btc_Unconfirmed).filter_by(user_id=user_id).first()
+    unconfirmeddelete = db.session\
+        .query(Btc_Unconfirmed)\
+        .filter_by(user_id=user_id)\
+        .first()
 
     # find matching txid in table
     if unconfirmeddelete.txid1 == txid:
@@ -118,7 +128,10 @@ def getbalanceunconfirmed(user_id):
     """
     this function removes the amount from unconfirmed
     """
-    unconfirmeddelete = db.session.query(Btc_Unconfirmed).filter_by(user_id=user_id).first()
+    unconfirmeddelete = db.session\
+        .query(Btc_Unconfirmed)\
+        .filter_by(user_id=user_id)\
+        .first()
     a = Decimal(unconfirmeddelete.unconfirmed1)
     b = Decimal(unconfirmeddelete.unconfirmed2)
     c = Decimal(unconfirmeddelete.unconfirmed3)
@@ -127,7 +140,10 @@ def getbalanceunconfirmed(user_id):
 
     total = a + b + c + d + e
 
-    wallet = db.session.query(Btc_Wallet).filter_by(user_id=user_id).first()
+    wallet = db.session\
+        .query(Btc_Wallet)\
+        .filter_by(user_id=user_id)\
+        .first()
     totalchopped = floating_decimals(total, 8)
     wallet.unconfirmed = totalchopped
     db.session.add(wallet)
@@ -137,11 +153,13 @@ def orphan(txid, amount2, address):
     """
     this function is if they cant find a matching address
     """
-    getorphan = db.session.query(Btc_TransOrphan).filter_by(txid=txid).first()
-    if getorphan:
-        pass
-    else:
-        # orphan transaction..put in background.
+    getorphan = db.session\
+        .query(Btc_TransOrphan)\
+        .filter_by(txid=txid)\
+        .first()
+
+    if not getorphan:
+        # orphan transaction. put in background.
         # they prolly sent to old address
         trans = Btc_TransOrphan(
             btc=amount2,
@@ -201,7 +219,8 @@ def newincomming(userwallet, amount2, txid, howmanyconfs):
     getbalanceunconfirmed(userwallet.user_id)
 
     # notify user
-    sendnotification(user_id=userwallet.user_id, notetype=105)
+    sendnotification(user_id=userwallet.user_id,
+                     notetype=105)
 
 
 def updateincomming(howmanyconfs, transactions, userwallet, txid, amount2):
@@ -269,7 +288,7 @@ def sendnotification(user_id, notetype):
     )
 
 
-def addcoin():
+def main():
 
     # get the json response
     response_json = getincommingcoin()
@@ -294,7 +313,8 @@ def addcoin():
         howmanyconfs = int(confirmations)
 
         # find the wallet that matches the address
-        userwallets = db.session.query(Btc_Wallet) \
+        userwallets = db.session\
+            .query(Btc_Wallet) \
             .filter(or_(Btc_Wallet.address1 == address,
                         Btc_Wallet.address2 == address,
                         Btc_Wallet.address3 == address
@@ -302,30 +322,30 @@ def addcoin():
                     ) \
             .first()
 
-        # if wallet exists else oprphan
-        if userwallets:
+        # if wallet exists else orphan
+        if not userwallets:
+            # no address found orphan
 
+            orphan(txid=txid, amount2=amount2, address=address)
+        else:
             # get the transactions
-            transactions = db.session.query(Btc_TransactionsBtc)\
+            transactions = db.session\
+                .query(Btc_TransactionsBtc)\
                 .filter(Btc_TransactionsBtc.txid == txid)\
                 .first()
 
             # create in database a new transaction or watch it
-            if transactions:
+            if not transactions:
+                # create a transaction
+                newincomming(userwallets, amount2, txid, howmanyconfs)
 
+            else:
                 # update if there is a transaction
                 updateincomming(howmanyconfs,
                                 transactions,
                                 userwallets,
                                 txid,
                                 amount2)
-            else:
-                # create a transaction
-                newincomming(userwallets, amount2, txid, howmanyconfs)
-
-        # no address found..orphan
-        else:
-            orphan(txid=txid, amount2=amount2, address=address)
 
         db.session.commit()
 
@@ -361,4 +381,4 @@ def getincommingcoin():
 
 
 if __name__ == '__main__':
-    addcoin()
+    main()

@@ -1,7 +1,10 @@
 from app import db
 
 
-from app.classes.wallet_btc import Btc_Wallet, Btc_TransactionsBtc, Btc_WalletAddresses
+from app.classes.wallet_btc import\
+    Btc_Wallet,\
+    Btc_TransactionsBtc,\
+    Btc_WalletAddresses
 
 def getnewaddress(user_id):
 
@@ -12,15 +15,19 @@ def getnewaddress(user_id):
     :return:
     """
 
-    userswallet = db.session.query(Btc_Wallet) \
+    userswallet = db.session\
+        .query(Btc_Wallet) \
         .filter_by(user_id=user_id) \
         .first()
-    walletaddress = db.session.query(Btc_WalletAddresses) \
+        
+    walletaddress = db.session\
+        .query(Btc_WalletAddresses) \
         .filter(Btc_WalletAddresses.status == 0) \
         .first()
 
     # Test to see if user doesnt have any current incomming transactions..get new one if not
-    incdeposit = db.session.query(Btc_TransactionsBtc) \
+    incdeposit = db.session\
+        .query(Btc_TransactionsBtc) \
         .filter(Btc_TransactionsBtc.category == 3,
                 Btc_TransactionsBtc.confirmed == 0,
                 Btc_TransactionsBtc.user_id == user_id) \

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1f4ddd8b-1d48-44a8-a618-3c00fd3421d3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/classes/checkout.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/classes/feedback.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/classes/user.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/classes/user_orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/achievements.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/achievements.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/affiliate.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/category.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/category.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/item.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/message.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/message.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/profile.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/profile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/promote.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/promote.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/userdata.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/userdata.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/vendor.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/vendor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/wallet_bch.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/wallet_bch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/wallet_btc.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/wallet_btc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/wallet_xmr.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/wallet_xmr.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2GHlScktbjTqVuR4RKLFILUqFlm" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "//wsl$/Ubuntu-20.04/home/droid/freeport/wallet_btc",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1f4ddd8b-1d48-44a8-a618-3c00fd3421d3" name="Changes" comment="" />
+      <created>1666053391133</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666053391133</updated>
+      <workItem from="1666053392367" duration="1000" />
+    </task>
+    <servers />
+  </component>
+</project>
