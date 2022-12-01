@@ -5,11 +5,11 @@ from flask_session import Session
 from sqlalchemy.orm import sessionmaker
 from werkzeug.routing import BaseConverter
 import decimal
-
+from flask_login import LoginManager
 try:
     from instance.config import ApplicationConfig
 except Exception as e:
-    from common import ApplicationConfig
+    from local_settings import ApplicationConfig
     
     
 app = Flask(__name__)
@@ -45,6 +45,10 @@ session.configure(bind=ApplicationConfig.SQLALCHEMY_DATABASE_URI_0)
 db = SQLAlchemy(app)
 server_session = Session(app)
 ma = Marshmallow(app)
+
+login_manager = LoginManager(app)
+login_manager.session_protection = 'strong'
+login_manager.anonymous_user = "Guest"
 
 
 

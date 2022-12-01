@@ -5,3 +5,6 @@ requests
 flask
 flask-login
 sqlalchemy
+flask_marshmallow
+flask_session
+marshmallow-sqlalchemy

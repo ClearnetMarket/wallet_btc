@@ -1,5 +1,5 @@
 from flask import jsonify
-from scripts import\
+from app.scripts import\
     account_checker,\
     wallet_checkincomming,\
     wallet_deletewalletwork,\
@@ -72,19 +72,6 @@ def recieve_coin():
         "status": 'sent coin',
     })
 
-
-@app.route('/generate', methods=['GET'])
-def generate_addresses():
-    """
-    Schedules the script to see how many addresses are out there.
-    Generate more if less than x = 100
-    :return:
-    """
-    wallet_getnewaddress()
-    
-    return jsonify({
-        "status": 'Generated Coin',
-    })
 
 
 @app.route('/checkaccounts', methods=['GET'])
