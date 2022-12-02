@@ -91,7 +91,3 @@ def listaccounts():
     return response_json
 
 
-if __name__ == '__main__':
-    getthebalance()
-    getwalletinfo()
-    listaccounts()

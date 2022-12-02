@@ -204,6 +204,3 @@ def sendcoincall(address, amount, comment):
 
     return response_json
 
-
-if __name__ == '__main__':
-    mainquery()

@@ -15,6 +15,3 @@ def deleteoldorder():
         for f in getwork:
             db.session.delete(f)
         db.session.commit()
-
-if __name__ == '__main__':
-    deleteoldorder()

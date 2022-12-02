@@ -12,7 +12,7 @@ from app import app
 @app.route('/', methods=['GET'])
 def get_wallet_status():
     """
-    Gets the count of vendor order issues.  Notification bar at top
+    Check to see if server is online
     :return:
     """
 
@@ -20,18 +20,20 @@ def get_wallet_status():
         "wallet_status": 'Bitcoin is Online',
     })
 
+
 @app.route('/deletework', methods=['GET'])
 def delete_work():
     """
-    This will delete work
+    This will delete work or old db entries
     :return:
     """
     
-    wallet_deletewalletwork()
+    wallet_deletewalletwork.deleteoldorder()
     
     return jsonify({
         "status": 'Deleted Work',
     })
+    
     
 @app.route('/generateaddresses', methods=['GET'])
 def generate_addresses():
@@ -40,7 +42,7 @@ def generate_addresses():
     :return:
     """
     
-    wallet_generateaddresses()
+    wallet_generateaddresses.generate_addresses()
     
     return jsonify({
         "status": 'Generated Addresses',
@@ -50,11 +52,11 @@ def generate_addresses():
 @app.route('/send', methods=['GET'])
 def send_coin():
     """
-    This will activiate the script to send coin
+    send coin offsite
     :return:
     """
     
-    wallet_send()
+    wallet_send.mainquery()
     
     return jsonify({
         "status": 'sent coin',
@@ -63,13 +65,13 @@ def send_coin():
 @app.route('/recieve', methods=['GET'])
 def recieve_coin():
     """
-     This will activiate the script to check for incomming bitcoin
+    check for incomming bitcoin
     :return:
     """
-    wallet_checkincomming()
+    wallet_checkincomming.main()
     
     return jsonify({
-        "status": 'sent coin',
+        "status": 'checked for new coin',
     })
 
 
@@ -81,7 +83,7 @@ def check_accounts():
     :return:
     """
     
-    account_checker()
+    account_checker.main()
     
     return jsonify({
         "status": 'Checked Accounts',
