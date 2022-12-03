@@ -14,24 +14,6 @@ from app.classes.wallet_btc import\
 
 
 
-def sendnotification(user_id, notetype):
-    """
-    # This function send notifications
-    """
-    # Positive
-    # 0 =  wallet sent
-    # errors
-    # 100 =  too litte or too much at withdrawl
-    # 102 = wallet error
-    # 103 = btc address error
-
-    # btc address error
-
-    add_new_notification(
-        thetypeofnote=notetype,
-        user_id=user_id,
-    )
-
 
 def securitybeforesending(sendto, user_id, adjusted_amount):
     """
@@ -47,14 +29,14 @@ def securitybeforesending(sendto, user_id, adjusted_amount):
         lengthofaddress = 1
     else:
         lengthofaddress = 0
-        sendnotification(user_id, notetype=103)
+        add_new_notification(user_id, notetype=103)
 
     # test to see if amount when adjusted is not too little or too much
     if Decimal(minamount) <= Decimal(adjusted_amount) <= Decimal(maxamount):
         amountcheck = 1
     else:
         amountcheck = 0
-        sendnotification(user_id, notetype=100)
+        add_new_notification(user_id, notetype=100)
 
     # count amount to pass
     totalamounttopass = regexpasses + lengthofaddress + amountcheck
@@ -141,12 +123,12 @@ def sendcoin(user_id, sendto, amount, comment):
             digital_currency=dcurrency
         )
 
-        sendnotification(user_id, notetype=104)
+        add_new_notification(user_id, notetype=104)
 
         db.session.add(userswallet)
         db.session.add(trans)
     else:
-        sendnotification(user_id, notetype=100)
+        add_new_notification(user_id, notetype=100)
 
 
 def mainquery():
