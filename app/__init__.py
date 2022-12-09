@@ -39,6 +39,13 @@ class DecimalEncoder(json.JSONEncoder):
 app.url_map.converters['regex'] = RegexConverter
 app.json_encoder = DecimalEncoder
 
+digital_currency = ApplicationConfig.DIGITAL_CURRENCY
+minconf = ApplicationConfig.MINCONF
+minamount = ApplicationConfig.MIN_AMOUNT
+maxamount = ApplicationConfig.MAX_AMOUNT
+rpcusername = ApplicationConfig.RPC_USERNAME
+rpcpassword = ApplicationConfig.RPC_PASSWORD
+url = ApplicationConfig.URL
 
 
 session.configure(bind=ApplicationConfig.SQLALCHEMY_DATABASE_URI_0)

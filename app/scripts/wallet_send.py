@@ -1,6 +1,6 @@
-from app import db
 import requests
-import walletconfig
+from app import db
+import app
 from decimal import Decimal
 from datetime import datetime
 import json
@@ -19,8 +19,9 @@ def securitybeforesending(sendto, user_id, adjusted_amount):
     """
     # This function checks regex, amounts, and length of addrss
     """
-    minamount = walletconfig.minamount
-    maxamount = walletconfig.maxamount
+    
+    minamount = app.minamount
+    maxamount = app.maxamount
 
     regexpasses = 1
 
@@ -55,7 +56,7 @@ def sendcoin(user_id, sendto, amount, comment):
     """
 
     # variables
-    dcurrency = walletconfig.digital_currency
+    dcurrency = app.digital_currency
     timestamp = datetime.utcnow()
 
     # get the fee from db
@@ -176,7 +177,7 @@ def sendcoincall(address, amount, comment):
 
     # execute the rpc request
     response = requests.post(
-        walletconfig.url,
+        app.url,
         data=json.dumps(rpc_input),
         headers=headers,
     )

@@ -1,7 +1,7 @@
 
 import requests
 import json
-from walletconfig import url
+from app import url
 
 def getthebalance():
 

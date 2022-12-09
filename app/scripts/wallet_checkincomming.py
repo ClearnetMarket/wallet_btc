@@ -1,8 +1,5 @@
 
-from app import db
-from walletconfig import \
-    url,\
-    digital_currency
+from app import db, url, digital_currency
 from sqlalchemy import or_
 import json
 from decimal import Decimal
