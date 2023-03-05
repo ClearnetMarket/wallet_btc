@@ -1,5 +1,5 @@
 from app import db
-from app.classes.message import Message_Notifications
+from app.classes.message import Notification_Notifications
 from datetime import datetime
 
 
@@ -21,7 +21,7 @@ from datetime import datetime
 def add_new_notification(thetypeofnote, user_id):
 
     now = datetime.utcnow()
-    newnotification = Message_Notifications(
+    newnotification = Notification_Notifications(
                         timestamp=now,
                         read=0,
                         user_id=user_id,
