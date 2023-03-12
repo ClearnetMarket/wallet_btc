@@ -134,10 +134,9 @@ dmypy.json
 
 
 /passwords.py
-/config.py
 /backupwallet.py
 /rsync.txt
 instance/config.py
 instance/crons.txt
-instance/crons.txt
 instance/walletconfig.py
+/settings_production.py

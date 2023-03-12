@@ -6,22 +6,17 @@ from sqlalchemy.orm import sessionmaker
 from werkzeug.routing import BaseConverter
 import decimal
 from flask_login import LoginManager
-try:
-    from instance.config import ApplicationConfig
-except Exception as e:
-    from local_settings import ApplicationConfig
-    
-    
+
+
+from config import load_config
+
+ApplicationConfig = load_config()
 app = Flask(__name__)
-
-
 app.config.from_object(ApplicationConfig)
-
 session = sessionmaker()
 
 check_enviroment = ApplicationConfig.CURRENT_SETTINGS
 print(f"starting server with {check_enviroment} settings")
-
 
 class RegexConverter(BaseConverter):
     def __init__(self, url_map, *items):
