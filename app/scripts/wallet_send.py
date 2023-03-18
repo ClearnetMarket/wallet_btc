@@ -4,18 +4,16 @@ import app
 from decimal import Decimal
 from datetime import datetime
 import json
-from app.notification import add_new_notification
+from app.notification import notification
 from app.common.functions import floating_decimals
 from app.classes.wallet_btc import\
     Btc_Wallet,\
     Btc_TransactionsBtc,\
     Btc_WalletFee, \
     Btc_WalletWork
+from app.classes.auth import Auth_User
 
-
-
-
-def securitybeforesending(sendto, user_id, adjusted_amount):
+def securitybeforesending(user, sendto, adjusted_amount):
     """
     # This function checks regex, amounts, and length of addrss
     """
@@ -30,14 +28,18 @@ def securitybeforesending(sendto, user_id, adjusted_amount):
         lengthofaddress = 1
     else:
         lengthofaddress = 0
-        add_new_notification(user_id, notetype=103)
+        notification(username=user.display_name,
+                     user_uuid=user.uuid,
+                     msg="Incorrect wallet address when sending coin")
 
     # test to see if amount when adjusted is not too little or too much
     if Decimal(minamount) <= Decimal(adjusted_amount) <= Decimal(maxamount):
         amountcheck = 1
     else:
         amountcheck = 0
-        add_new_notification(user_id, notetype=100)
+        notification(username=user.display_name,
+                     user_uuid=user.uuid,
+                     msg="Wallet didnt have enough coin to send.")
 
     # count amount to pass
     totalamounttopass = regexpasses + lengthofaddress + amountcheck
@@ -50,7 +52,7 @@ def securitybeforesending(sendto, user_id, adjusted_amount):
     return itpasses
 
 
-def sendcoin(user_id, sendto, amount, comment):
+def sendcoin(user, sendto, amount, comment):
     """
     # This function sends the coin off site
     """
@@ -69,7 +71,7 @@ def sendcoin(user_id, sendto, amount, comment):
     # get the users wall
     userswallet = db.session\
         .query(Btc_Wallet)\
-        .filter_by(user_id=user_id)\
+        .filter_by(user_id=user.id)\
         .first()
 
     # proceed to see if balances check
@@ -83,11 +85,15 @@ def sendcoin(user_id, sendto, amount, comment):
     comment_str = str(comment)
 
     # double check user
-    securetosend = securitybeforesending(sendto=sendto,
-                                         user_id=user_id,
+    securetosend = securitybeforesending(user=user,
+                                         sendto=sendto,
                                          adjusted_amount=adjusted_amount
                                          )
-    if securetosend is True:
+    if securetosend is False:
+        notification(username=user.display_name,
+                     user_uuid=user.uuid,
+                     msg="Low Balance or incorrect address before sending.")
+    else:
 
         # send call to rpc
         cmdsendcoin = sendcoincall(address=str(sendto_str),
@@ -97,7 +103,6 @@ def sendcoin(user_id, sendto, amount, comment):
 
         # get the txid from json response
         print("sending a transaction..")
-        print(user_id)
         print("txid: ", cmdsendcoin['result'])
 
         print("*"*15)
@@ -106,7 +111,7 @@ def sendcoin(user_id, sendto, amount, comment):
         # adds to transactions with txid and confirmed = 0 so we can watch it
         trans = Btc_TransactionsBtc(
             category=2,
-            user_id=user_id,
+            user_id=user.id,
             confirmations=0,
             txid=txid,
             blockhash='',
@@ -124,12 +129,13 @@ def sendcoin(user_id, sendto, amount, comment):
             digital_currency=dcurrency
         )
 
-        add_new_notification(user_id, notetype=104)
+        notification(username=user.display_name,
+                     user_uuid=user.uuid,
+                     msg="BTC has successfully been sent to destination.")
 
         db.session.add(userswallet)
         db.session.add(trans)
-    else:
-        add_new_notification(user_id, notetype=100)
+
 
 
 def mainquery():
@@ -141,11 +147,16 @@ def mainquery():
         .filter(Btc_WalletWork.type == 2) \
         .order_by(Btc_WalletWork.created.desc()) \
         .all()
+
     if work:
         for f in work:
             # off site
             if f.type == 2:
-                sendcoin(user_id=f.user_id,
+                user = db.session\
+                .query(Auth_User)\
+                .filter(Auth_User.id==work.user_id)\
+                .first()
+                sendcoin(user=user,
                          sendto=f.sendto,
                          amount=f.amount,
                          comment=f.txtcomment)
@@ -153,8 +164,6 @@ def mainquery():
 
         db.session.commit()
 
-    else:
-        print("no wallet work")
 
 
 def sendcoincall(address, amount, comment):

@@ -15,7 +15,8 @@ def generate_addresses():
 
     # see if less than 50
     if get_available_addresses < 50:
-        print(f"We have {get_available_addresses} addresses available still.  No need to run")
+        print(f"We have {get_available_addresses} addresses available still. "
+              f" No need to run")
     else:
         # make 100 new addresses
         for f in range(100):

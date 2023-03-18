@@ -3,6 +3,7 @@ import requests
 import json
 from app import url
 
+
 def getthebalance():
 
     # standard json header
@@ -14,7 +15,6 @@ def getthebalance():
         "params":
             {
              "minconf": 1,
-
              }
     }
 

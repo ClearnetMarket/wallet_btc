@@ -9,7 +9,6 @@ def getnewaddress(user_id):
 
     """
     THIS function gets a new address for the user
-
     :param user_id:
     :return:
     """
@@ -24,7 +23,8 @@ def getnewaddress(user_id):
         .filter(Btc_WalletAddresses.status == 0) \
         .first()
 
-    # Test to see if user doesnt have any current incomming transactions..get new one if not
+    # Test to see if user doesnt have any current incomming transactions.
+    # get new one if not
     incdeposit = db.session\
         .query(Btc_TransactionsBtc) \
         .filter(Btc_TransactionsBtc.category == 3,

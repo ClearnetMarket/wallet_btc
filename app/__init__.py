@@ -6,8 +6,6 @@ from sqlalchemy.orm import sessionmaker
 from werkzeug.routing import BaseConverter
 import decimal
 from flask_login import LoginManager
-
-
 from config import load_config
 
 ApplicationConfig = load_config()

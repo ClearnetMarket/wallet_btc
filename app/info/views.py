@@ -4,7 +4,6 @@ from app.scripts import wallet_info
 
 # End Models
 
-
 @info.route('/status', methods=['GET'])
 def info_status():
     """
@@ -13,7 +12,7 @@ def info_status():
     """
     
     return jsonify({
-        "wallet_status": 'Ready for info',
+        "success": 'Ready for info',
     })
 
 
@@ -27,7 +26,7 @@ def get_balance():
     wallet_info.getthebalance()
     
     return jsonify({
-        "wallet_status": 'Success',
+        "success": 'Success',
     })
 
 
@@ -41,7 +40,7 @@ def get_wallet_info():
     wallet_info.getwalletinfo()
     
     return jsonify({
-        "wallet_status": 'Success',
+        "success": 'Success',
     })
 
 
@@ -56,5 +55,5 @@ def list_accounts():
     wallet_info.listaccounts()
     
     return jsonify({
-        "wallet_status": 'Success',
+        "success": 'Success',
     })

@@ -5,14 +5,14 @@ import json
 from decimal import Decimal
 import requests
 from app.common.functions import floating_decimals
-from app.notification import add_new_notification
+from app.notification import notification
 from app.classes.wallet_btc import\
     Btc_Wallet,\
     Btc_TransactionsBtc,\
     Btc_Unconfirmed,\
     Btc_TransOrphan
 
-
+from app.classes.auth import Auth_User
 # this script nonstop.
 # This cron job gets the user unconfirmed.
 # It searches for incomming transactions.
@@ -166,7 +166,7 @@ def orphan(txid, amount2, address):
         db.session.add(trans)
 
 
-def newincomming(userwallet, amount2, txid, howmanyconfs):
+def newincomming(user, userwallet, amount2, txid, howmanyconfs):
     """
     this function creates a new transaction for incomming coin
     """
@@ -216,8 +216,9 @@ def newincomming(userwallet, amount2, txid, howmanyconfs):
     getbalanceunconfirmed(userwallet.user_id)
 
     # notify user
-    sendnotification(user_id=userwallet.user_id,
-                     notetype=105)
+    notification(username=user.display_name,
+                 user_uuid=user.uuid,
+                 msg="New incomming BTC desposit.")
 
 
 def updateincomming(howmanyconfs, transactions, userwallet, txid, amount2):
@@ -266,25 +267,6 @@ def updateincomming(howmanyconfs, transactions, userwallet, txid, amount2):
             pass
 
 
-def sendnotification(user_id, notetype):
-    """
-    # This function send notifications
-    """
-    # Positive
-    # 0 =  wallet sent
-
-    # errors
-    # 100 =  too litte or too much at withdrawl
-    # 102 = wallet error
-    # 103 = btc address error
-
-    # btc address error
-    add_new_notification(
-        thetypeofnote=notetype,
-        user_id=user_id,
-    )
-
-
 def main():
 
     # get the json response
@@ -318,7 +300,10 @@ def main():
                         )
                     ) \
             .first()
-
+        user = db.session\
+            .query(Auth_User)\
+            .filter(Auth_User.id==userwallets.user_id)\
+            .first()
         # if wallet exists else orphan
         if not userwallets:
             # no address found orphan
@@ -334,7 +319,7 @@ def main():
             # create in database a new transaction or watch it
             if not transactions:
                 # create a transaction
-                newincomming(userwallets, amount2, txid, howmanyconfs)
+                newincomming(user, userwallets, amount2, txid, howmanyconfs)
 
             else:
                 # update if there is a transaction

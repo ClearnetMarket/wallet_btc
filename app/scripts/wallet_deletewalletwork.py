@@ -9,9 +9,7 @@ def deleteoldorder():
         .query(Btc_WalletWork)\
         .filter_by(type=0)\
         .all()
-    if not getwork:
-        print("no work!")
-    else:
+    if getwork:
         for f in getwork:
             db.session.delete(f)
         db.session.commit()

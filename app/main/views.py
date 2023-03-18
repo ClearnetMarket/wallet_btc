@@ -4,7 +4,6 @@ from app.scripts import\
     wallet_checkincomming,\
     wallet_deletewalletwork,\
     wallet_generateaddresses,\
-    wallet_getnewaddress,\
     wallet_send
 from app import app
 
@@ -17,7 +16,7 @@ def get_wallet_status():
     """
 
     return jsonify({
-        "wallet_status": 'Bitcoin is Online',
+        "success": 'Bitcoin is Online',
     })
 
 
@@ -31,7 +30,7 @@ def delete_work():
     wallet_deletewalletwork.deleteoldorder()
     
     return jsonify({
-        "status": 'Deleted Work',
+        "success": 'Deleted Work',
     })
     
     
@@ -45,7 +44,7 @@ def generate_addresses():
     wallet_generateaddresses.generate_addresses()
     
     return jsonify({
-        "status": 'Generated Addresses',
+        "success": 'Generated Addresses',
     })
     
     
@@ -59,7 +58,7 @@ def send_coin():
     wallet_send.mainquery()
     
     return jsonify({
-        "status": 'sent coin',
+        "success": 'sent coin',
     })
 
 @app.route('/recieve', methods=['GET'])
@@ -71,7 +70,7 @@ def recieve_coin():
     wallet_checkincomming.main()
     
     return jsonify({
-        "status": 'checked for new coin',
+        "success": 'checked for new coin',
     })
 
 
@@ -86,6 +85,6 @@ def check_accounts():
     account_checker.main()
     
     return jsonify({
-        "status": 'Checked Accounts',
+        "success": 'Checked Accounts',
     })
 
