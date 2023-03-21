@@ -1,5 +1,4 @@
 from app import db
-
 from app.classes.wallet_btc import\
     Btc_Wallet,\
     Btc_TransactionsBtc,\

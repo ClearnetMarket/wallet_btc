@@ -4,7 +4,7 @@ import app
 from decimal import Decimal
 from datetime import datetime
 import json
-from app.notification import notification
+from app.common.notification import create_notification
 from app.common.functions import floating_decimals
 from app.classes.wallet_btc import\
     Btc_Wallet,\
@@ -28,7 +28,7 @@ def securitybeforesending(user, sendto, adjusted_amount):
         lengthofaddress = 1
     else:
         lengthofaddress = 0
-        notification(username=user.display_name,
+        create_notification(username=user.display_name,
                      user_uuid=user.uuid,
                      msg="Incorrect wallet address when sending coin")
 
@@ -37,7 +37,7 @@ def securitybeforesending(user, sendto, adjusted_amount):
         amountcheck = 1
     else:
         amountcheck = 0
-        notification(username=user.display_name,
+        create_notification(username=user.display_name,
                      user_uuid=user.uuid,
                      msg="Wallet didnt have enough coin to send.")
 
@@ -90,7 +90,7 @@ def sendcoin(user, sendto, amount, comment):
                                          adjusted_amount=adjusted_amount
                                          )
     if securetosend is False:
-        notification(username=user.display_name,
+        create_notification(username=user.display_name,
                      user_uuid=user.uuid,
                      msg="Low Balance or incorrect address before sending.")
     else:
@@ -108,7 +108,7 @@ def sendcoin(user, sendto, amount, comment):
         print("*"*15)
         txid = cmdsendcoin['result']
 
-        # adds to transactions with txid and confirmed = 0 so we can watch it
+        # adds to transactions with txid and confirmed = 0 in order watch it
         trans = Btc_TransactionsBtc(
             category=2,
             user_id=user.id,
@@ -129,7 +129,7 @@ def sendcoin(user, sendto, amount, comment):
             digital_currency=dcurrency
         )
 
-        notification(username=user.display_name,
+        create_notification(username=user.display_name,
                      user_uuid=user.uuid,
                      msg="BTC has successfully been sent to destination.")
 

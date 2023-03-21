@@ -5,7 +5,7 @@ import json
 from decimal import Decimal
 import requests
 from app.common.functions import floating_decimals
-from app.notification import notification
+from app.common.notification import create_notification
 from app.classes.wallet_btc import\
     Btc_Wallet,\
     Btc_TransactionsBtc,\
@@ -216,7 +216,7 @@ def newincomming(user, userwallet, amount2, txid, howmanyconfs):
     getbalanceunconfirmed(userwallet.user_id)
 
     # notify user
-    notification(username=user.display_name,
+    create_notification(username=user.display_name,
                  user_uuid=user.uuid,
                  msg="New incomming BTC desposit.")
 
