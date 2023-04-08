@@ -102,6 +102,7 @@ class Item_MarketItem(db.Model):
     item_rating = db.Column(db.DECIMAL(20, 2))
     review_count = db.Column(db.INTEGER)
     total_sold = db.Column(db.INTEGER)
+    reported_count = db.Column(db.INTEGER)
     
 
     def __str__(self):
